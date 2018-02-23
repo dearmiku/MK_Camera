@@ -13,6 +13,10 @@
 		1099D85B203EABBF007CC119 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1099D85A203EABBF007CC119 /* Assets.xcassets */; };
 		1099D85E203EABBF007CC119 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1099D85C203EABBF007CC119 /* LaunchScreen.storyboard */; };
 		1099D867203EAC11007CC119 /* MK_CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1099D866203EAC11007CC119 /* MK_CameraView.swift */; };
+		1099D86B203EB49D007CC119 /* MK_CameraDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1099D86A203EB49D007CC119 /* MK_CameraDelegate.swift */; };
+		1099D86D203EBA4C007CC119 /* MK_Detector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1099D86C203EBA4C007CC119 /* MK_Detector.swift */; };
+		1099D86F203EBB00007CC119 /* MK_CameraConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1099D86E203EBB00007CC119 /* MK_CameraConfigurations.swift */; };
+		1099D871203EBCF7007CC119 /* MK_RespValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1099D870203EBCF7007CC119 /* MK_RespValue.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +28,10 @@
 		1099D85D203EABBF007CC119 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1099D85F203EABBF007CC119 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1099D866203EAC11007CC119 /* MK_CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MK_CameraView.swift; sourceTree = "<group>"; };
+		1099D86A203EB49D007CC119 /* MK_CameraDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MK_CameraDelegate.swift; sourceTree = "<group>"; };
+		1099D86C203EBA4C007CC119 /* MK_Detector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MK_Detector.swift; sourceTree = "<group>"; };
+		1099D86E203EBB00007CC119 /* MK_CameraConfigurations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MK_CameraConfigurations.swift; sourceTree = "<group>"; };
+		1099D870203EBCF7007CC119 /* MK_RespValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MK_RespValue.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +79,10 @@
 			isa = PBXGroup;
 			children = (
 				1099D866203EAC11007CC119 /* MK_CameraView.swift */,
+				1099D86E203EBB00007CC119 /* MK_CameraConfigurations.swift */,
+				1099D86C203EBA4C007CC119 /* MK_Detector.swift */,
+				1099D86A203EB49D007CC119 /* MK_CameraDelegate.swift */,
+				1099D870203EBCF7007CC119 /* MK_RespValue.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -147,9 +159,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1099D86D203EBA4C007CC119 /* MK_Detector.swift in Sources */,
+				1099D86F203EBB00007CC119 /* MK_CameraConfigurations.swift in Sources */,
+				1099D871203EBCF7007CC119 /* MK_RespValue.swift in Sources */,
 				1099D856203EABBF007CC119 /* ViewController.swift in Sources */,
 				1099D867203EAC11007CC119 /* MK_CameraView.swift in Sources */,
 				1099D854203EABBF007CC119 /* AppDelegate.swift in Sources */,
+				1099D86B203EB49D007CC119 /* MK_CameraDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,7 +305,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S2M9W9G946;
 				INFOPLIST_FILE = MK_Camera/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.leiqi.www.MK-Camera";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -305,7 +321,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S2M9W9G946;
 				INFOPLIST_FILE = MK_Camera/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.leiqi.www.MK-Camera";
 				PRODUCT_NAME = "$(TARGET_NAME)";

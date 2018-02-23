@@ -9,17 +9,13 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        let v = MK_CameraView.init(nil)
+        v.frame = CGRect.init(x: 0, y: 100, width: 375, height: 100)
+        self.view.addSubview(v)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-
 }
 
