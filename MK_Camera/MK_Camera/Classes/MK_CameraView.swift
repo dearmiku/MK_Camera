@@ -14,16 +14,15 @@ import Photos
 public class MK_CameraView : UIView {
 
     //MARK:- 初始化方法
-    public init(frame:CGRect,confi:MK_CameraConfigurations?) {
+    public init(frame:CGRect,confi:MK_CameraConfigurations?,delegate:MK_CameraDelegate?) {
         self.confi = confi == nil ? MK_CameraConfigurations() : confi!
+        self.delegate = delegate
         super.init(frame: frame)
         self.setupCamera()
     }
-    public convenience init(_ confi:MK_CameraConfigurations?){
-        self.init(frame: CGRect.zero, confi: confi)
-    }
-    public convenience init(){
-        self.init(nil)
+
+    public convenience init(delegate:MK_CameraDelegate? = nil,confi:MK_CameraConfigurations? = nil){
+        self.init(frame: CGRect.zero, confi: nil, delegate: delegate)
     }
 
     required public init?(coder aDecoder: NSCoder) {

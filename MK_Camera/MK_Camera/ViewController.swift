@@ -13,9 +13,14 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let v = MK_CameraView.init(nil)
+        let v = MK_CameraView.init(delegate: self, confi: nil)
+
         v.frame = CGRect.init(x: 0, y: 100, width: 375, height: 100)
         self.view.addSubview(v)
     }
 }
-
+extension ViewController:MK_CameraDelegate{
+    func noAuthorization(view: MK_CameraView) {
+        print("未授权相机")
+    }
+}
