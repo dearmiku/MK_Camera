@@ -15,8 +15,10 @@ class ViewController: UIViewController {
         
         let v = MK_CameraView.init(delegate: self, confi: nil)
 
-        v.frame = CGRect.init(x: 0, y: 100, width: 375, height: 100)
+        v.frame = self.view.bounds
         self.view.addSubview(v)
+
+        
     }
 }
 extension ViewController:MK_CameraDelegate{

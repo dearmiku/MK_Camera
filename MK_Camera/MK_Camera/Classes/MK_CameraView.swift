@@ -74,7 +74,7 @@ public class MK_CameraView : UIView {
             delegate?.noAuthorization?(view: self)
             return
         }
-
+        
         if self.session.canSetSessionPreset(AVCaptureSession.Preset.photo){
             self.session.sessionPreset = AVCaptureSession.Preset.photo
         }
@@ -91,7 +91,8 @@ public class MK_CameraView : UIView {
 
         ///是否点击对焦
         confi.isTouchFouce.subscribe { (res) in
-            gesture.isEnabled = res
+            guard let bo = res else { return }
+            gesture.isEnabled = bo
         }
 
         ///闪光灯
@@ -103,7 +104,8 @@ public class MK_CameraView : UIView {
             }
         }
         ///白平衡
-        confi.whiteBalanceMode.subscribe { [weak self](mode) in
+        confi.whiteBalanceMode.subscribe { [weak self] (po) in
+            guard let mode = po else { return }
             self?.deviceLockRunBlock {
                 if self!.device.isWhiteBalanceModeSupported(mode){
                     self!.device.whiteBalanceMode = mode
@@ -116,9 +118,53 @@ public class MK_CameraView : UIView {
                 self?.device.focusMode = mode
             }
         }
+        ///手动调焦 
+        confi.focalLength.subscribe {[weak self] (length) in
+            guard length < 0 else { return }
+            if self?.confi.fouceMode.value != AVCaptureDevice.FocusMode.locked{
+                self?.confi.fouceMode.value = .locked
+            }
+            self?.deviceLockRunBlock {
+                self?.device.setFocusModeLocked(lensPosition: length, completionHandler: nil)
+            }
+        }
+        ///曝光模式
+        confi.exportMode.subscribe {[weak self] (po) in
+            guard let mode = po else { return }
+            self?.deviceLockRunBlock {
+                self?.device.exposureMode = mode
+            }
+        }
+        ///手动曝光值
+        confi.exposureValue.subscribe { (po) in
+            guard let num = po else { return }
+            if self.confi.exportMode.value != AVCaptureDevice.ExposureMode.custom{
+                self.confi.exportMode.value = AVCaptureDevice.ExposureMode.custom
+            }
+            self.device.setExposureTargetBias(num, completionHandler: nil)
+        }
+        ///曝光时间
+        confi.exposureTime.subscribe {[weak self] (po) in
+            guard let num = po else { return }
+            if self?.confi.exportMode.value != AVCaptureDevice.ExposureMode.custom{
+                self?.confi.exportMode.value = AVCaptureDevice.ExposureMode.custom
+            }
+            let time = CMTime.init(seconds: num, preferredTimescale: 1)
+            self?.device.setExposureModeCustom(duration: time, iso: self!.device.iso, completionHandler: nil)
+        }
+        ///ISO
+        confi.iso.subscribe {[weak self] (po) in
+            guard let num = po else { return }
+            if self?.confi.exportMode.value != AVCaptureDevice.ExposureMode.custom{
+                self?.confi.exportMode.value = AVCaptureDevice.ExposureMode.custom
+            }
+            self?.device.setExposureModeCustom(duration: self!.device.exposureDuration, iso: num, completionHandler: nil)
+        }
+        
 
         ///镜头朝向
-        confi.position.subscribe {[weak self] (position) in
+        confi.position.subscribe {[weak self] (po) in
+            guard let position = po else { return }
             guard let weakSelf = self else {
                 return
             }
@@ -196,8 +242,6 @@ public class MK_CameraView : UIView {
             previewLayer.frame = self.bounds
         }
     }
-
-
 
     ///device锁定处理Block
     func deviceLockRunBlock(_ block:()->()){
