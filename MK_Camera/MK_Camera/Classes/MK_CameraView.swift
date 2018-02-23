@@ -61,6 +61,9 @@ public class MK_CameraView : UIView {
     //MARK:-相机配置信息
     public var confi:MK_CameraConfigurations
 
+    //MARK:-代理
+    public var delegate:MK_CameraDelegate?
+
 
     lazy var detector = MK_Detector.check()
 
@@ -69,6 +72,7 @@ public class MK_CameraView : UIView {
     func setupCamera(){
         ///未授权
         guard !MK_Detector.noAuthorization.isExist(num: detector) else{
+            delegate?.noAuthorization?(view: self)
             return
         }
 
@@ -82,6 +86,14 @@ public class MK_CameraView : UIView {
             self.session.addOutput(self.ImageOutput)
         }
         self.session.startRunning()
+
+        let gesture = UITapGestureRecognizer.init(target: self, action: #selector(focusGesture(gesture:)))
+        self.addGestureRecognizer(gesture)
+
+        ///是否点击对焦
+        confi.isTouchFouce.subscribe { (res) in
+            gesture.isEnabled = res
+        }
 
         ///闪光灯
         confi.flashMode.subscribe { [weak self] (mode) in
@@ -160,6 +172,25 @@ public class MK_CameraView : UIView {
         }
         return nil
     }
+    //进行点击屏幕对焦
+    @objc func focusGesture(gesture:UITapGestureRecognizer){
+        let point = gesture.location(in: gesture.view)
+        let size = self.bounds.size
+        let focusPoint = CGPoint.init(x: point.y/size.height, y: 1-point.x/size.width)
+        do{
+            try self.device.lockForConfiguration()
+            if device.isFocusModeSupported(AVCaptureDevice.FocusMode.autoFocus) {
+                device.focusPointOfInterest = focusPoint
+                device.focusMode = .autoFocus
+            }
+            if device.isExposureModeSupported(AVCaptureDevice.ExposureMode.autoExpose) {
+                device.exposurePointOfInterest = focusPoint
+                device.exposureMode = .autoExpose
+            }
+            device.unlockForConfiguration()
+        }catch{}
+    }
+
 
     public override var frame: CGRect{
         didSet{

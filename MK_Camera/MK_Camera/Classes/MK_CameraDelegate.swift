@@ -9,8 +9,9 @@
 import Foundation
 
 ///相机代理协议
-public protocol MK_CameraDelegate : NSObjectProtocol {
+@objc public protocol MK_CameraDelegate : NSObjectProtocol {
 
-   
+    ///未获得用户授权
+    @objc optional func noAuthorization(view:MK_CameraView)
 
 }

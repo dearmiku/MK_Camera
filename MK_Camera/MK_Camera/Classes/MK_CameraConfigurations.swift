@@ -21,6 +21,9 @@ public struct MK_CameraConfigurations {
     ///聚焦模式
     var fouceMode = MK_RespValue<AVCaptureDevice.FocusMode>(AVCaptureDevice.FocusMode.autoFocus)
 
+    ///是否点击聚焦
+    var isTouchFouce = MK_RespValue<Bool>(true)
+
     ///镜头方向
     var position = MK_RespValue<AVCaptureDevice.Position>(AVCaptureDevice.Position.front)
 
