@@ -16,17 +16,17 @@ public struct MK_CameraConfigurations {
     var flashMode = MK_RespValue<AVCaptureDevice.FlashMode>(AVCaptureDevice.FlashMode.auto)
 
     ///白平衡模式
-    var whiteBalanceMode = MK_RespValue<AVCaptureDevice.WhiteBalanceMode?>(nil)
+    var whiteBalanceMode = MK_RespValue<AVCaptureDevice.WhiteBalanceMode>(AVCaptureDevice.WhiteBalanceMode.autoWhiteBalance)
 
     ///聚焦模式
     var fouceMode = MK_RespValue<AVCaptureDevice.FocusMode>(AVCaptureDevice.FocusMode.continuousAutoFocus)
     ///是否点击聚焦
-    var isTouchFouce = MK_RespValue<Bool?>(nil)
+    var isTouchFouce = MK_RespValue<Bool>(true)
     ///手动调焦(默认关闭,当设置时将将关闭自动调焦,根据数值锁定焦距,值范围 0~1 从进到远)
-    var focalLength = MK_RespValue<Float>(-1)
+    var focalLength = MK_RespValue<Float?>(nil)
 
     ///曝光模式
-    var exportMode = MK_RespValue<AVCaptureDevice.ExposureMode?>(nil)
+    var exportMode = MK_RespValue<AVCaptureDevice.ExposureMode>(AVCaptureDevice.ExposureMode.continuousAutoExposure)
     ///手动设置曝光值(注意取值范围)
     var exposureValue = MK_RespValue<Float?>(nil)
 
@@ -35,7 +35,7 @@ public struct MK_CameraConfigurations {
     ///感光度(注意取值范围)
     var iso = MK_RespValue<Float?>(nil)
     ///镜头方向
-    var position = MK_RespValue<AVCaptureDevice.Position?>(nil)
+    var position = MK_RespValue<AVCaptureDevice.Position>(AVCaptureDevice.Position.back)
 
     ///拍摄内容填充模式
     var previewLayerMode = MK_RespValue<AVLayerVideoGravity>(AVLayerVideoGravity.resizeAspectFill)

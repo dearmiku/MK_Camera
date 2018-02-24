@@ -6,12 +6,15 @@
 //  Copyright © 2018年 MBP. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 ///相机代理协议
 @objc public protocol MK_CameraDelegate : NSObjectProtocol {
 
     ///未获得用户授权
     @objc optional func noAuthorization(view:MK_CameraView)
+
+    ///点击聚焦点回调
+    @objc optional func clickFocus(view:MK_CameraView,point:CGPoint)
 
 }

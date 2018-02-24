@@ -84,15 +84,13 @@ public class MK_CameraView : UIView {
         if self.session.canAddOutput(self.ImageOutput){
             self.session.addOutput(self.ImageOutput)
         }
-        self.session.startRunning()
 
         let gesture = UITapGestureRecognizer.init(target: self, action: #selector(focusGesture(gesture:)))
         self.addGestureRecognizer(gesture)
 
         ///是否点击对焦
         confi.isTouchFouce.subscribe { (res) in
-            guard let bo = res else { return }
-            gesture.isEnabled = bo
+            gesture.isEnabled = res
         }
 
         ///闪光灯
@@ -104,8 +102,7 @@ public class MK_CameraView : UIView {
             }
         }
         ///白平衡
-        confi.whiteBalanceMode.subscribe { [weak self] (po) in
-            guard let mode = po else { return }
+        confi.whiteBalanceMode.subscribe { [weak self] (mode) in
             self?.deviceLockRunBlock {
                 if self!.device.isWhiteBalanceModeSupported(mode){
                     self!.device.whiteBalanceMode = mode
@@ -119,8 +116,8 @@ public class MK_CameraView : UIView {
             }
         }
         ///手动调焦 
-        confi.focalLength.subscribe {[weak self] (length) in
-            guard length < 0 else { return }
+        confi.focalLength.subscribe {[weak self] (po) in
+            guard let length = po else { return }
             if self?.confi.fouceMode.value != AVCaptureDevice.FocusMode.locked{
                 self?.confi.fouceMode.value = .locked
             }
@@ -129,8 +126,7 @@ public class MK_CameraView : UIView {
             }
         }
         ///曝光模式
-        confi.exportMode.subscribe {[weak self] (po) in
-            guard let mode = po else { return }
+        confi.exportMode.subscribe {[weak self] (mode) in
             self?.deviceLockRunBlock {
                 self?.device.exposureMode = mode
             }
@@ -163,8 +159,7 @@ public class MK_CameraView : UIView {
         
 
         ///镜头朝向
-        confi.position.subscribe {[weak self] (po) in
-            guard let position = po else { return }
+        confi.position.subscribe {[weak self] (position) in
             guard let weakSelf = self else {
                 return
             }
@@ -197,7 +192,7 @@ public class MK_CameraView : UIView {
                 }
             }
         }
-
+        self.session.startRunning()
     }
     //在转换摄像头时 获取对应的Device
     func cameraWithPosition(position:AVCaptureDevice.Position)->AVCaptureDevice?{
@@ -233,6 +228,7 @@ public class MK_CameraView : UIView {
                 device.exposureMode = .autoExpose
             }
             device.unlockForConfiguration()
+            delegate?.clickFocus?(view: self, point: point)
         }catch{}
     }
 
