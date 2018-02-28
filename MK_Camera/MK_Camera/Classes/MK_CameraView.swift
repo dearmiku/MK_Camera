@@ -63,7 +63,7 @@ public class MK_CameraView : UIView {
     public var confi:MK_CameraConfigurations
 
     //MARK:-代理
-    public var delegate:MK_CameraDelegate?
+    public weak var delegate:MK_CameraDelegate?
 
 
     lazy var detector = MK_Detector.check()
