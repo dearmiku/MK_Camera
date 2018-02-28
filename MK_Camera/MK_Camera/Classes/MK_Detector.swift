@@ -39,7 +39,13 @@ public enum MK_Detector : Int {
         }
         return res
     }
-    
+
+    ///检查是否为真机
+    static func checkIsMachine()->Bool{
+        return AVCaptureDevice.default(for: AVMediaType.video) != nil
+    }
+
+
     ///当前枚举是否在检测结果中存在
     func isExist(num:Int)->Bool{
         return num & self.rawValue == self.rawValue

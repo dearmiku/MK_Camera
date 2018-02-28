@@ -18,7 +18,9 @@ public class MK_CameraView : UIView {
         self.confi = confi == nil ? MK_CameraConfigurations() : confi!
         self.delegate = delegate
         super.init(frame: frame)
-        self.setupCamera()
+        if MK_Detector.checkIsMachine(){
+            self.setupCamera()
+        }
     }
 
     public convenience init(delegate:MK_CameraDelegate? = nil,confi:MK_CameraConfigurations? = nil){
@@ -248,6 +250,8 @@ public class MK_CameraView : UIView {
         }catch{}
 
     }
+
+    
 }
 
 ///对外扩展方法
