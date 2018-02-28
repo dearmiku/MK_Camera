@@ -34,7 +34,7 @@ public enum MK_Detector : Int {
         if !UIImagePickerController.isCameraDeviceAvailable(UIImagePickerControllerCameraDevice.front){
             res = res | MK_Detector.fontCameraDamage.rawValue
         }
-        if UIImagePickerController.isCameraDeviceAvailable(UIImagePickerControllerCameraDevice.rear){
+        if !UIImagePickerController.isCameraDeviceAvailable(UIImagePickerControllerCameraDevice.rear){
             res = res | MK_Detector.rearCameraDamage.rawValue
         }
         return res
