@@ -263,7 +263,7 @@ public extension MK_CameraView {
     }
     ///恢复拍摄
     public func startRuning(){
-        self.session.stopRunning()
+        self.session.startRunning()
     }
     ///拍摄
     public func shoot(backBlock:@escaping (UIImage?)->()){
