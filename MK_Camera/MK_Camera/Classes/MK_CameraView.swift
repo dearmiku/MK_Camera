@@ -12,7 +12,7 @@ import Photos
 
 ///自定义相机视图
 public class MK_CameraView : UIView {
-
+    
     //MARK:- 初始化方法
     public init(frame:CGRect,confi:MK_CameraConfigurations?,delegate:MK_CameraDelegate?) {
         self.confi = confi == nil ? MK_CameraConfigurations() : confi!
@@ -22,53 +22,53 @@ public class MK_CameraView : UIView {
             self.setupCamera()
         }
     }
-
+    
     public convenience init(delegate:MK_CameraDelegate? = nil,confi:MK_CameraConfigurations? = nil){
         self.init(frame: CGRect.zero, confi: nil, delegate: delegate)
     }
-
+    
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-
-
+    
+    
+    
     //MARK:-相机基础属性
     lazy var session = AVCaptureSession()
-
+    
     lazy var device:AVCaptureDevice = {
         guard let res = AVCaptureDevice.default(for: AVMediaType.video) else {
             fatalError("can't get AVCaptureDevice")
         }
         return res
     }()
-
+    
     lazy var ImageOutput = AVCaptureStillImageOutput()
-
+    
     lazy var input:AVCaptureDeviceInput = {
         guard let res = try? AVCaptureDeviceInput.init(device: device) else{
             fatalError("can't get AVCaptureDeviceInput")
         }
         return res
     }()
-
+    
     lazy var previewLayer = { () -> AVCaptureVideoPreviewLayer in
         let res = AVCaptureVideoPreviewLayer.init(session: session)
         res.videoGravity = AVLayerVideoGravity.resizeAspectFill
         self.layer.addSublayer(res)
         return res
     }()
-
+    
     //MARK:-相机配置信息
     public var confi:MK_CameraConfigurations
-
+    
     //MARK:-代理
     public weak var delegate:MK_CameraDelegate?
-
-
+    
+    
     lazy var detector = MK_Detector.check()
-
-
+    
+    
     ///初始化相机
     func setupCamera(){
         ///未授权
@@ -86,15 +86,15 @@ public class MK_CameraView : UIView {
         if self.session.canAddOutput(self.ImageOutput){
             self.session.addOutput(self.ImageOutput)
         }
-
+        
         let gesture = UITapGestureRecognizer.init(target: self, action: #selector(focusGesture(gesture:)))
         self.addGestureRecognizer(gesture)
-
+        
         ///是否点击对焦
         confi.isTouchFouce.subscribe { (res) in
             gesture.isEnabled = res
         }
-
+        
         ///闪光灯
         confi.flashMode.subscribe { [weak self] (mode) in
             self?.deviceLockRunBlock {
@@ -159,7 +159,7 @@ public class MK_CameraView : UIView {
             self?.device.setExposureModeCustom(duration: self!.device.exposureDuration, iso: num, completionHandler: nil)
         }
         
-
+        
         ///镜头朝向
         confi.position.subscribe {[weak self] (position) in
             guard let weakSelf = self else {
@@ -169,9 +169,9 @@ public class MK_CameraView : UIView {
             if cameraCount > 1{
                 var newCamera:AVCaptureDevice?
                 var newInput:AVCaptureDeviceInput
-
+                
                 newCamera = weakSelf.cameraWithPosition(position: position)
-
+                
                 if newCamera != nil {
                     do{
                         newInput = try AVCaptureDeviceInput.init(device: newCamera!)
@@ -186,9 +186,9 @@ public class MK_CameraView : UIView {
                         }
                         weakSelf.session.commitConfiguration()
                         weakSelf.session.startRunning()
-
+                        
                     }catch{
-
+                        
                     }
                     //获取新输入设备失败
                 }
@@ -233,14 +233,14 @@ public class MK_CameraView : UIView {
             delegate?.clickFocus?(view: self, point: point)
         }catch{}
     }
-
-
+    
+    
     public override var frame: CGRect{
         didSet{
             previewLayer.frame = self.bounds
         }
     }
-
+    
     ///device锁定处理Block
     func deviceLockRunBlock(_ block:()->()){
         do{
@@ -248,22 +248,26 @@ public class MK_CameraView : UIView {
             block()
             self.device.unlockForConfiguration()
         }catch{}
-
+        
     }
-
+    
     
 }
 
 ///对外扩展方法
 public extension MK_CameraView {
-
+    
     ///暂停拍摄
     public func stopRunning(){
-        self.session.stopRunning()
+        if MK_Detector.checkIsMachine(){
+            self.session.stopRunning()
+        }
     }
     ///恢复拍摄
     public func startRuning(){
-        self.session.startRunning()
+        if MK_Detector.checkIsMachine(){
+            self.session.startRunning()
+        }
     }
     ///拍摄
     public func shoot(backBlock:@escaping (UIImage?)->()){
