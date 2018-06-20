@@ -76,6 +76,7 @@ public class MK_CameraView : UIView {
             delegate?.noAuthorization?(view: self)
             return
         }
+        delegate?.beginSetUpCamera?(view: self)
         
         if self.session.canSetSessionPreset(AVCaptureSession.Preset.photo){
             self.session.sessionPreset = AVCaptureSession.Preset.photo

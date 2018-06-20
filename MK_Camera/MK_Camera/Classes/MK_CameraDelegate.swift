@@ -17,4 +17,7 @@ import UIKit
     ///点击聚焦点回调
     @objc optional func clickFocus(view:MK_CameraView,point:CGPoint)
 
+    ///通过相机授权/开始启动相机 时回调方法
+    @objc optional func beginSetUpCamera(view:MK_CameraView)
+
 }
